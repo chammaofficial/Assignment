@@ -1,0 +1,33 @@
+﻿@model List<Assignment.Models.Task>
+
+@{
+    ViewData["Title"] = "Tasks List";
+}
+
+<h1>Task List</h1>
+
+<table class="table align-content-center border-1">
+    <thead>
+    <tr>
+        <td>
+            Id
+        </td>
+        <td>
+            Task Name
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>
+                    @task.Id
+                </td>
+                <td>
+                    @task.Name
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

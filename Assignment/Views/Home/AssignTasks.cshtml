@@ -1,0 +1,68 @@
+﻿@model Assignment.ViewModels.AssignTaskViewModel
+
+@{
+    ViewData["Title"] = "Assign Tasks to Employees";
+}
+
+<h1>Task Assignment</h1>
+<br/>
+
+@using (Html.BeginForm("SaveAssignment", "Home"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m=>m.TaskAssignment.Id);
+    @Html.LabelFor(x=>x.TaskAssignment.Employee_Id,"Employee Name",new{@class = "form-label"})
+    @Html.DropDownListFor(x=>x.TaskAssignment.Employee_Id,new SelectList(Model.Employees,"Id","Name"),"Select Employee",new{@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x=>x.TaskAssignment.Task_Id,"Task Name",new{@class = "form-label"})
+    @Html.DropDownListFor(x=>x.TaskAssignment.Task_Id,new SelectList(Model.Tasks,"Id","Name"),"Select Task",new{@class = "form-control"})
+    <br/>
+    <button type="submit" class="btn-success">Save Chanages</button>
+    <br/>
+}
+
+<br/>
+<h1>Assigned Task</h1>
+<table class="table align-content-center border-1">
+    <thead>
+        <tr>
+            <td>
+                Assignment Id
+            </td>
+            <td>
+                Employee
+            </td>
+            <td>
+                Task
+            </td>
+            <td>
+                Edit
+            </td>
+            <td>
+                Delete
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tasks in Model.EmployeeTasks)
+        {
+            <tr>
+                <td>
+                    @tasks.Id
+                </td>
+                <td>
+                    @Model.Employees.First(x => x.Id == tasks.Employee_Id).Name
+                </td>
+                <td>
+                    @Model.Tasks.First(x => x.Id == tasks.Task_Id).Name
+                </td>
+                <td>
+                    @Html.ActionLink("Edit","EditTasks","Home",new{id = tasks.Id},null)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete","DeleteAssignedTasks","Home",new{id = tasks.Id},null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
